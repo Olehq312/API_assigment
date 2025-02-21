@@ -5,6 +5,8 @@ import {
     getDucksbyId,
     updateDucksById,
     deleteDucksById } from './controllers/duckController';
+import { loginUser, registerUser, securityToken } from './controllers/authController';
+
 
 
 const router: Router = Router();
@@ -16,10 +18,20 @@ router.get('/', (req: Request, res: Response) => {
 
 
 
-router.post('/ducks', createDuck);
+// Authentication
+router.post('/user/register', registerUser);
+router.post('/user/login', loginUser);
+
+
+
+// Ducks CRUD
+
 router.get('/ducks', getAllDucks);
 router.get('/ducks/:id', getDucksbyId);
-router.put('/ducks/:id', updateDucksById);
-router.delete('/ducks/:id', deleteDucksById);
+
+// Security Token
+router.post('/ducks', createDuck);
+router.put('/ducks/:id',  updateDucksById);
+router.delete('/ducks/:id',  deleteDucksById);
 
 export default router;
