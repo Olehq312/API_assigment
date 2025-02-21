@@ -30,8 +30,8 @@ router.get('/ducks', getAllDucks);
 router.get('/ducks/:id', getDucksbyId);
 
 // Security Token
-router.post('/ducks', createDuck);
-router.put('/ducks/:id',  updateDucksById);
-router.delete('/ducks/:id',  deleteDucksById);
+router.post('/ducks', securityToken, createDuck);
+router.put('/ducks/:id', securityToken,  updateDucksById);
+router.delete('/ducks/:id', securityToken,  deleteDucksById);
 
 export default router;
