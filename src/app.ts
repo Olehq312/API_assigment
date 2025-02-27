@@ -2,6 +2,9 @@ import express, { Application, Request, Response } from 'express';
 import dotenvFlow from 'dotenv-flow';
 import  routes from './routes';
 import { testConnection } from './repos/db';
+import cors from 'cors';
+import { setUpSwagger } from './util/docs';
+
 
 dotenvFlow.config();
 
@@ -10,14 +13,31 @@ const app: Application = express();
 
 
 
+function setupCors() {
+  app.use(cors({
+
+  origin: '*', // allow to server to accept request from different origin
+  methods: "GET,PUT,POST,DELETE",
+  allowedHeaders: ['auth-token', 'Origin', 'X-Requested-Width', 'Content-Type', 'Accept'],
+  credentials: true // allow session cookie from browser
+
+}));
+}
+
+
+
 
 export function startServer() {
+
+    //setup cors
+    setupCors();
 
     //JSON body parser
     app.use(express.json());
 
     //basic route
   app.use('/api', routes);
+  setUpSwagger(app);
 
   testConnection();
   
