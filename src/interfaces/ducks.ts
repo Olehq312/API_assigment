@@ -7,4 +7,5 @@ export interface Duck extends Document {
     style: string;
     color: string;
     _createdby: User ['id'];
+    likes: number;
 }

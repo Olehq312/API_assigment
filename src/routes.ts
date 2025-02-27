@@ -5,7 +5,8 @@ import {
     getDucksbyId,
     updateDucksById,
     deleteDucksById,
-    getRandomDuck } from './controllers/duckController';
+    getRandomDuck,
+    likeDuck } from './controllers/duckController';
 import { loginUser, registerUser, securityToken } from './controllers/authController';
 
 
@@ -25,11 +26,14 @@ router.post('/user/login', loginUser);
 
 
 
-// Ducks CRUD
-
-router.get('/ducks', getAllDucks);
+// New routes
 router.get('/ducks/random', getRandomDuck);
+router.post('/ducks/:id/like', securityToken, likeDuck);
+
+// Ducks CRUD
+router.get('/ducks', getAllDucks);
 router.get('/ducks/:id', getDucksbyId);
+
 
 // Security Token
 router.post('/ducks', securityToken, createDuck);

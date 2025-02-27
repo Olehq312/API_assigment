@@ -173,3 +173,35 @@ export async function deleteDucksById(req: Request, res: Response): Promise<void
     }
   }
   
+
+
+
+  // Like Duck
+
+  export async function likeDuck(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    try {
+        await connect();
+
+        // Find the duck by ID and increment the "likes" field
+        const updatedDuck = await duckModel.findByIdAndUpdate(
+            id,
+            { $inc: { likes: 1 } }, // Increments the likes count by 1
+            { new: true } // Returns the updated document
+        );
+
+        if (!updatedDuck) {
+            res.status(404).json({ message: "Duck not found" });
+            return;
+        }
+
+        res.status(200).json({ message: "Duck liked successfully!", duck: updatedDuck });
+    } catch (error) {
+        console.error("Error liking duck:", error);
+        res.status(500).json({ error: "Internal Server Error", details: (error as Error).message });
+    } finally {
+        await disconnect();
+    }
+}
+
